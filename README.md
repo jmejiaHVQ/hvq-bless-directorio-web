@@ -1,2 +1,0 @@
-# hvq-bless-directorio-web
-
