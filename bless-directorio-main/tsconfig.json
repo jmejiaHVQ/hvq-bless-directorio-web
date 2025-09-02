@@ -19,7 +19,13 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/services": ["./services"],
+      "@/services/*": ["./services/*"],
+      "@/shared": ["./shared"],
+      "@/shared/*": ["./shared/*"],
+      "@/frontend/*": ["./frontend/*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/specialties/[specialty]/[doctor]/page.tsx", ".next/types/app/specialties/page.tsx", ".next/types/app/selection/page.tsx", ".next/types/app/doctors/search/page.tsx", ".next/types/app/page.tsx", ".next/types/app/layout.tsx"],

@@ -1,6 +1,6 @@
+// Archivo de compatibilidad para autenticación
 import axios from "axios"
 import { config } from "./config"
-import type { AuthTokens, AuthError } from "./types"
 
 // Variables de estado para los tokens
 let accessToken = ''
@@ -18,24 +18,8 @@ const getCredentials = (): { username: string; password: string } => {
   return { username, password }
 }
 
-// Función para manejar errores de autenticación
-const handleAuthError = (error: unknown): AuthError => {
-  if (axios.isAxiosError(error)) {
-    return {
-      message: error.response?.data?.message || error.message || 'Error de autenticación',
-      code: error.response?.status?.toString()
-    }
-  }
-  
-  if (error instanceof Error) {
-    return { message: error.message }
-  }
-  
-  return { message: 'Error desconocido de autenticación' }
-}
-
 // Función para hacer login
-const login = async (): Promise<AuthTokens> => {
+const login = async (): Promise<{ accessToken: string; refreshToken: string }> => {
   try {
     const { username, password } = getCredentials()
     
@@ -58,43 +42,7 @@ const login = async (): Promise<AuthTokens> => {
     
     return { accessToken: access_token, refreshToken: refresh_token }
   } catch (error) {
-    const authError = handleAuthError(error)
-    // En producción, no deberíamos loggear errores de autenticación
-    // console.error('Error de login:', authError.message)
-    throw new Error(authError.message)
-  }
-}
-
-// Función para refrescar el token
-const refreshAuthToken = async (): Promise<AuthTokens> => {
-  try {
-    if (!refreshToken) {
-      throw new Error('No hay token de refresh disponible')
-    }
-    
-    const response = await axios.post(
-      `${config.api.authUrl}/Auth/refresh`,
-      new URLSearchParams({ refreshToken }),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        timeout: config.api.timeout
-      }
-    )
-    
-    const { access_token, refresh_token } = response.data
-    
-    if (!access_token || !refresh_token) {
-      throw new Error('Respuesta de refresh inválida')
-    }
-    
-    return { accessToken: access_token, refreshToken: refresh_token }
-  } catch (error) {
-    const authError = handleAuthError(error)
-    // En producción, no deberíamos loggear errores de autenticación
-    // console.error('Error de refresh:', authError.message)
-    throw new Error(authError.message)
+    throw new Error('Error de autenticación')
   }
 }
 
@@ -106,20 +54,6 @@ export const getAccessToken = async (): Promise<string> => {
     refreshToken = tokens.refreshToken
   }
   return accessToken
-}
-
-// Función para refrescar el token de autenticación
-export const refreshAuthTokenPublic = async (): Promise<void> => {
-  try {
-    const tokens = await refreshAuthToken()
-    accessToken = tokens.accessToken
-    refreshToken = tokens.refreshToken
-  } catch (error) {
-    // Si falla el refresh, intentar login nuevamente
-    const tokens = await login()
-    accessToken = tokens.accessToken
-    refreshToken = tokens.refreshToken
-  }
 }
 
 // Función para limpiar los tokens (útil para logout)

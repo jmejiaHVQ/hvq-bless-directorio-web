@@ -1,9 +1,9 @@
-// Configuración de entorno para el proyecto del directorio
+// Configuración de entorno migrada y mejorada
 export const environment = {
   // Configuración de la API Backend
   api: {
     baseUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001',
-    authUrl: process.env.NEXT_PUBLIC_AUTH_URL || 'http://10.129.180.166:36560/api3/v1',
+    authUrl: process.env.NEXT_PUBLIC_AUTH_URL || 'http://10.129.180.161:36560/api3/v1',
     timeout: parseInt(process.env.NEXT_PUBLIC_API_TIMEOUT || '30000'), // 30 segundos
   },
   
@@ -13,7 +13,10 @@ export const environment = {
     aplicativoLogo: process.env.NEXT_PUBLIC_APLICATIVO_LOGO_URL || 'http://horizon-html:35480/public/img_directorio/aplicativo_logo.svg',
     homeline: process.env.NEXT_PUBLIC_HOMELINE_URL || 'http://horizon-html:35480/public/img_directorio/homeline.png',
     banner: process.env.NEXT_PUBLIC_BANNER_URL || 'http://horizon-html:35480/public/img_directorio/banner.png',
-    hvqLogo: process.env.NEXT_PUBLIC_HVQ_LOGO_URL || '/images/hvq_2025_1.png',
+    banner2: process.env.NEXT_PUBLIC_BANNER2_URL || 'http://horizon-html:35480/public/img_directorio/banner_2.png',
+    banner3: process.env.NEXT_PUBLIC_BANNER3_URL || 'http://horizon-html:35480/public/img_directorio/banner_3.png',
+    qrBlessVideo: process.env.NEXT_PUBLIC_QR_BLESS_VIDEO_URL || 'http://horizon-html:35480/public/img_directorio/QR_Bless_Animado.mp4',
+    hvqLogo: process.env.NEXT_PUBLIC_HVQ_LOGO_URL || '/assets/images/hvq_2025_1.png',
   },
   
   // Configuración de la aplicación
